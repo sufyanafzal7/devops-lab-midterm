@@ -1,0 +1,34 @@
+name: ML Retraining Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dataset/train.csv'
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install pandas scikit-learn joblib
+
+      - name: Retrain Model
+        run: python train.py
+
+      - name: Commit Updated Model
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add model.pkl metrics.json
+          git commit -m "Automated model retraining" || echo "No changes to commit"
+          git push
