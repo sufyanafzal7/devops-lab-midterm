@@ -1,0 +1,7 @@
+{
+    "student_id": "FA23-BAI-061",
+    "dataset_version": "1.0",
+    "model_type": "random_forest",
+    "accuracy": 0.81,
+    "samples": 500
+}
